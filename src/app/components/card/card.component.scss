@@ -1,0 +1,36 @@
+mat-card {
+  max-width: 400px;
+  margin: 20px;
+}
+
+mat-card-header {
+  text-align: left;
+}
+
+.date-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.date-info mat-icon {
+  margin-right: 8px;
+  color: gray;
+}
+
+mat-card-content p {
+  margin-top: 16px;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+mat-card-actions {
+  justify-content: flex-end;
+}
+
+.red {
+  color: red;
+}
+
+.blue {
+  color: blue;
+}

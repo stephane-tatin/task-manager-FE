@@ -1,0 +1,49 @@
+<ng-container class="form-container" [formGroup]="taskForm">
+  <div class="form-container">
+    <mat-form-field>
+      <mat-label>Title</mat-label>
+      <input
+        matInput
+        placeholder="title"
+        formControlName="title"
+        (blur)="updateErrorMessage()"
+        required
+      />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Description of the task</mat-label>
+      <textarea
+        matInput
+        placeholder="description"
+        formControlName="description"
+        (blur)="updateErrorMessage()"
+        required
+      ></textarea>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Priority</mat-label>
+      <mat-select formControlName="priority">
+        @for (priorityLevel of priorityLevels; track priorityLevel) {
+        <mat-option [value]="priorityLevel">{{ priorityLevel }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>targetTime</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="targetTime" />
+      <mat-datepicker-toggle
+        matIconSuffix
+        [for]="picker"
+      ></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Assigned to</mat-label>
+      <mat-select formControlName="assignedTo">
+        @for (user of appUsers; track user) {
+        <mat-option [value]="user.id">{{ user.userName }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  </div>
+</ng-container>
