@@ -1,6 +1,6 @@
 <ng-container class="form-container" [formGroup]="taskForm">
   <div class="form-container">
-    <mat-form-field>
+    <mat-form-field class="form-field">
       <mat-label>Title</mat-label>
       <input
         matInput
@@ -10,7 +10,7 @@
         required
       />
     </mat-form-field>
-    <mat-form-field>
+    <mat-form-field class="form-field">
       <mat-label>Description of the task</mat-label>
       <textarea
         matInput
@@ -20,7 +20,7 @@
         required
       ></textarea>
     </mat-form-field>
-    <mat-form-field>
+    <mat-form-field class="form-field">
       <mat-label>Priority</mat-label>
       <mat-select formControlName="priority">
         @for (priorityLevel of priorityLevels; track priorityLevel) {
@@ -28,7 +28,7 @@
         }
       </mat-select>
     </mat-form-field>
-    <mat-form-field>
+    <mat-form-field class="form-field">
       <mat-label>targetTime</mat-label>
       <input matInput [matDatepicker]="picker" formControlName="targetTime" />
       <mat-datepicker-toggle
@@ -37,7 +37,7 @@
       ></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
-    <mat-form-field>
+    <mat-form-field class="form-field">
       <mat-label>Assigned to</mat-label>
       <mat-select formControlName="assignedTo">
         @for (user of appUsers; track user) {

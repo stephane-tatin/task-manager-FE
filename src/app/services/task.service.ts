@@ -16,29 +16,6 @@ export class TaskService {
   }
 
   private loadInitialData() {
-    const fakeTasks: Task[] = [
-      {
-        id: 1,
-        title: 'Complete project documentation',
-        description: 'Write documentation for the entire project.',
-        priority: Priority.HIGH,
-        createdAt: new Date('2023-10-01T08:30:00'),
-        modifiedAt: new Date('2023-10-02T10:15:00'),
-        targetTime: new Date('2023-10-10T17:00:00'),
-        assignedTo: undefined,
-      },
-      {
-        id: 2,
-        title: 'Database optimization',
-        description: 'Optimize database queries for faster response times.',
-        priority: Priority.MEDIUM,
-        createdAt: new Date('2023-10-03T09:00:00'),
-        modifiedAt: new Date('2023-10-04T12:30:00'),
-        targetTime: new Date('2023-10-15T17:00:00'),
-        assignedTo: undefined,
-      },
-    ];
-
     this.http.get<Task[]>(`${this.baseUrl}/tasks`).subscribe({
       next: (tasks) => this.taskListSignal.set(tasks),
       error: (err) => console.error('Failed to load tasks', err),

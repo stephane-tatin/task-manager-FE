@@ -6,7 +6,15 @@ import {
   model,
   ChangeDetectionStrategy,
 } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import {
   MAT_DIALOG_DATA,
@@ -57,18 +65,23 @@ export class TaskFormComponent {
   ) {
     this.taskForm = new FormGroup(
       {
-        id: new FormControl(task?.id || ''),
-        title: new FormControl(task?.title || ''),
+        id: new FormControl(task?.id || '', [Validators.required]),
+        title: new FormControl(task?.title || '', [Validators.required]),
         description: new FormControl(task?.description || ''),
-        targetTime: new FormControl(task?.targetTime || ''),
+        targetTime: new FormControl(task?.targetTime || '', [
+          this.dateInPastValidator(),
+        ]),
         priority: new FormControl(task?.priority || Priority.LOW),
         assignedTo: new FormControl(task?.assignedTo?.id || ''),
       },
       { updateOn: 'blur' }
     );
 
-    this.dialogRef.beforeClosed().subscribe(() => {
-      this.dialogRef.close({ data: this.taskForm.value });
+    this.dialogRef.disableClose = true;
+    this.dialogRef.backdropClick().subscribe((_) => {
+      if (this.taskForm.valid) {
+        this.dialogRef.close({ data: this.taskForm.value });
+      }
     });
   }
 
@@ -80,7 +93,13 @@ export class TaskFormComponent {
     return this.userService.appUserListSignal();
   }
 
-  
+  dateInPastValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      return Date.now() > Date.parse(control.value)
+        ? { dateInPast: { value: true } }
+        : null;
+    };
+  }
 
   updateErrorMessage() {}
 }

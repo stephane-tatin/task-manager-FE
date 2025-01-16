@@ -3,7 +3,7 @@ import { AppUser } from './app-user.model';
 // Priority.ts
 export enum Priority {
   LOW = 'LOW',
-  MEDIUM = 'MEDIUM',
+  MODERATE = 'MODERATE',
   HIGH = 'HIGH',
 }
 

@@ -20,7 +20,7 @@ export class CardComponent {
     switch (priority) {
       case Priority.HIGH:
         return { name: 'keyboard_double_arrow_up', class: 'red' };
-      case Priority.MEDIUM:
+      case Priority.MODERATE:
         return { name: 'keyboard_double_arrow_up', class: 'red' };
       case Priority.LOW:
         return { name: 'keyboard_double_arrow_up', class: 'blue' };
