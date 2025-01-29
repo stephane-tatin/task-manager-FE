@@ -1,4 +1,5 @@
 import { AppUser } from './app-user.model';
+import { Column } from './column';
 
 // Priority.ts
 export enum Priority {
@@ -16,6 +17,7 @@ export interface Task {
   modifiedAt?: Date;
   targetTime?: Date;
   assignedTo?: AppUser;
+  statusColumn: Column;
 }
 
 export interface FormTaskData {

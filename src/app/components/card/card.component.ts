@@ -4,11 +4,12 @@ import { Priority, Task } from '../../models/task.model';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
+import { CdkDrag } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-card',
   standalone: true,
-  imports: [MatCardModule, MatButtonModule, MatIcon, CommonModule],
+  imports: [MatCardModule, MatButtonModule, MatIcon, CommonModule, CdkDrag],
   templateUrl: './card.component.html',
   styleUrl: './card.component.scss',
 })

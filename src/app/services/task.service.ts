@@ -1,9 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, signal, WritableSignal } from '@angular/core';
-import { Priority, Task } from '../models/task.model';
-import { AppUser, Role } from '../models/app-user.model';
-import { from, Observable } from 'rxjs';
-import { toObservable } from '@angular/core/rxjs-interop';
+import { Injectable, signal } from '@angular/core';
+import { Task } from '../models/task.model';
+import { ColumnService } from './column.service';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +9,7 @@ import { toObservable } from '@angular/core/rxjs-interop';
 export class TaskService {
   private baseUrl = 'http://localhost:8080';
   private taskListSignal = signal<Task[]>([]);
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private columnService: ColumnService) {
     this.loadInitialData();
   }
 
@@ -25,9 +23,23 @@ export class TaskService {
   updateTask(task: Task) {
     this.http.post<Task>(`${this.baseUrl}/tasks`, task).subscribe({
       next: (savedTask) => {
-        this.taskListSignal.update((tasks) =>
-          tasks.map((task) => (task.id === savedTask.id ? savedTask : task))
-        );
+        this.columnService.columnsWithTasks.update((columns) => {
+          return columns.map((column) => {
+            if (column.id === savedTask.statusColumn.id) {
+              return {
+                ...column,
+                tasks: column.tasks.map((task) => {
+                  if (task.id === savedTask.id) {
+                    console.log('doing stuff');
+                    return savedTask;
+                  }
+                  return task;
+                }),
+              };
+            }
+            return column;
+          });
+        });
       },
       error: (err) => console.error('Failed to save task', err),
     });
@@ -36,7 +48,17 @@ export class TaskService {
   saveTask(task: Task) {
     this.http.post<Task>(`${this.baseUrl}/tasks`, task).subscribe({
       next: (savedTask) => {
-        this.taskListSignal.update((tasks) => [...tasks, savedTask]);
+        this.columnService.columnsWithTasks.update((columns) => {
+          return columns.map((column) => {
+            if (column.id === savedTask.statusColumn.id) {
+              return {
+                ...column,
+                tasks: column.tasks.concat(savedTask),
+              };
+            }
+            return column;
+          });
+        });
       },
       error: (err) => console.error('Failed to save task', err),
     });

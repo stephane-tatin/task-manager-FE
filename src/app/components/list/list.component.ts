@@ -1,4 +1,4 @@
-import { Component, effect, inject } from '@angular/core';
+import { Component, effect, inject, Input } from '@angular/core';
 import { TaskService } from '../../services/task.service';
 import { MatListModule } from '@angular/material/list';
 import { FormTaskData, Task } from '../../models/task.model';
@@ -18,6 +18,8 @@ import {
 } from '@angular/material/dialog';
 import { TaskFormComponent } from '../task-form/task-form.component';
 import { UserService } from '../../services/user.service';
+import { ColumnWithTasks } from '../../models/columnsWithTasks';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-list',
@@ -30,20 +32,23 @@ import { UserService } from '../../services/user.service';
     MatCardModule,
     MatButton,
     MatDialogModule,
+    DragDropModule,
   ],
   templateUrl: './list.component.html',
   styleUrl: './list.component.scss',
 })
 export class ListComponent {
-  tasksList: Task[] = [];
+  @Input() column!: ColumnWithTasks;
+  // tasksList: Task[] = [];
   readonly dialog = inject(MatDialog);
   constructor(
     private taskService: TaskService,
     private userService: UserService
   ) {
-    effect(() => {
-      this.tasksList = this.taskService.getAllTasks()();
-    });
+    // effect(() => {
+    //   this.  @Input() tasks = [];
+    //   = this.taskService.getAllTasks()();
+    // });
   }
 
   openTaskDialog(task?: Task): void {
@@ -68,6 +73,7 @@ export class ListComponent {
       assignedTo: this.userService
         .appUserListSignal()
         .find((user) => user.id.toString() == formTask?.assignedTo),
+      statusColumn: this.column,
     };
 
     return task;

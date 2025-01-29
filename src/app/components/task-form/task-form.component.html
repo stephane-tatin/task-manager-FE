@@ -9,6 +9,9 @@
         (blur)="updateErrorMessage()"
         required
       />
+      @if (title.hasError('required')) {
+      <mat-error>{{ messages.required("title") }}</mat-error>
+      }
     </mat-form-field>
     <mat-form-field class="form-field">
       <mat-label>Description of the task</mat-label>
@@ -19,6 +22,9 @@
         (blur)="updateErrorMessage()"
         required
       ></textarea>
+      @if (title.hasError('required')) {
+      <mat-error>{{ messages.required("description") }}</mat-error>
+      }
     </mat-form-field>
     <mat-form-field class="form-field">
       <mat-label>Priority</mat-label>
@@ -36,6 +42,9 @@
         [for]="picker"
       ></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
+      @if (targetTime.hasError('dateInPast')) {
+      <mat-error>{{ messages.dateInPast }}</mat-error>
+      }
     </mat-form-field>
     <mat-form-field class="form-field">
       <mat-label>Assigned to</mat-label>

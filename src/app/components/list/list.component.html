@@ -1,6 +1,6 @@
 <mat-card class="list-container">
   <mat-card-header class="list-header">
-    <mat-card-title>todo</mat-card-title>
+    <mat-card-title>{{ column.name }}</mat-card-title>
   </mat-card-header>
   <button mat-button color="primary" (click)="openTaskDialog()">
     Add task
@@ -8,7 +8,7 @@
 
   <mat-card-content>
     <mat-list role="list" class="task-list">
-      @for (task of tasksList; track task.id) {
+      @for (task of column.tasks; track task.id) {
       <app-card [task]="task" (click)="openTaskDialog(task)"></app-card>
       }
     </mat-list>

@@ -1,7 +1,14 @@
 .task-list {
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  width: 300px;
+  min-width: 250px;
+  max-width: 400px;
+  flex: 1;
+  padding: 10px;
+  background: grey;
+  border: 1px solid #ddd;
+  border-radius: 2.5%;
 }
 
 section {
@@ -37,7 +44,7 @@ section {
 }
 
 .list-container {
-  max-width: 40%;
+  // max-width: 40%;
 }
 
 .list-header {

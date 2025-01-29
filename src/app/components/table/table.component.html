@@ -1,0 +1,24 @@
+<div cdkDropListGroup class="table-container">
+  <ng-container *ngFor="let column of columnsWithTasks">
+    <app-list
+      [column]="column"
+      cdkDropList
+      [cdkDropListData]="column.tasks"
+      (cdkDropListDropped)="drop($event)"
+    ></app-list>
+  </ng-container>
+
+  <button mat-button color="primary" (click)="addList()" *ngIf="!addingList">
+    Add list
+  </button>
+
+  <mat-form-field class="form-field" *ngIf="addingList">
+    <mat-label>Title</mat-label>
+    <input
+      matInput
+      #titleInput
+      (blur)="saveEdit(titleInput.value)"
+      (keydown.enter)="saveEdit(titleInput.value)"
+    />
+  </mat-form-field>
+</div>

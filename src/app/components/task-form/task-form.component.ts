@@ -31,6 +31,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { UserService } from '../../services/user.service';
+import { messages } from '../../utils/messages';
 
 @Component({
   selector: 'app-task-form',
@@ -55,9 +56,8 @@ import { UserService } from '../../services/user.service';
 })
 export class TaskFormComponent {
   readonly dialogRef = inject(MatDialogRef<TaskFormComponent>);
-  // readonly data = inject<any>(MAT_DIALOG_DATA);
-  // readonly title = model(this.data.title);
   taskForm!: FormGroup;
+  messages = messages;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public task: Task,
@@ -65,20 +65,24 @@ export class TaskFormComponent {
   ) {
     this.taskForm = new FormGroup(
       {
-        id: new FormControl(task?.id || '', [Validators.required]),
+        id: new FormControl(task?.id),
         title: new FormControl(task?.title || '', [Validators.required]),
-        description: new FormControl(task?.description || ''),
+        description: new FormControl(task?.description || '', [
+          Validators.required,
+        ]),
         targetTime: new FormControl(task?.targetTime || '', [
           this.dateInPastValidator(),
         ]),
         priority: new FormControl(task?.priority || Priority.LOW),
         assignedTo: new FormControl(task?.assignedTo?.id || ''),
+        createdAt: new FormControl(task?.createdAt),
       },
       { updateOn: 'blur' }
     );
 
     this.dialogRef.disableClose = true;
     this.dialogRef.backdropClick().subscribe((_) => {
+      console.log('this.task', this.taskForm);
       if (this.taskForm.valid) {
         this.dialogRef.close({ data: this.taskForm.value });
       }
@@ -93,10 +97,23 @@ export class TaskFormComponent {
     return this.userService.appUserListSignal();
   }
 
+  get title(): AbstractControl {
+    return this.taskForm.get('title')!;
+  }
+
+  get description(): AbstractControl {
+    console.log(this.taskForm.get('description')?.hasError('required'));
+    return this.taskForm.get('description')!;
+  }
+
+  get targetTime(): AbstractControl {
+    return this.taskForm.get('targetTime')!;
+  }
+
   dateInPastValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       return Date.now() > Date.parse(control.value)
-        ? { dateInPast: { value: true } }
+        ? { dateInPast: true }
         : null;
     };
   }
