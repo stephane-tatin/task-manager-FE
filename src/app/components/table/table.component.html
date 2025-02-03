@@ -1,12 +1,16 @@
 <div cdkDropListGroup class="table-container">
-  <ng-container *ngFor="let column of columnsWithTasks">
-    <app-list
-      [column]="column"
-      cdkDropList
-      [cdkDropListData]="column.tasks"
-      (cdkDropListDropped)="drop($event)"
-    ></app-list>
-  </ng-container>
+  @for (column of columnsWithTasks; track column.id) {
+  <app-list
+    [column]="column"
+    [id]="column.id.toString()"
+    [cdkDropListConnectedTo]="cdkDropListConnectedIds"
+    cdkDropList
+    [cdkDropListData]="column.tasks"
+    (cdkDropListDropped)="drop($event)"
+  >
+    > ></app-list
+  >
+  }
 
   <button mat-button color="primary" (click)="addList()" *ngIf="!addingList">
     Add list

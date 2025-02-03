@@ -6,15 +6,16 @@ import { CommonModule } from '@angular/common';
 import { MatButton } from '@angular/material/button';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { Column } from '../../models/column';
 import {
   CdkDragDrop,
   moveItemInArray,
   transferArrayItem,
   CdkDrag,
   CdkDropList,
+  CdkDragEnter,
 } from '@angular/cdk/drag-drop';
 import { Task } from '../../models/task.model';
+import { TaskService } from '../../services/task.service';
 
 @Component({
   selector: 'app-table',
@@ -35,9 +36,18 @@ import { Task } from '../../models/task.model';
 export class TableComponent {
   addingList = false;
   columnsWithTasks: ColumnWithTasks[] = [];
-  constructor(private columnService: ColumnService) {
+  cdkDropListConnectedIds: string[] = [];
+
+  constructor(
+    private columnService: ColumnService,
+    private taskService: TaskService
+  ) {
     effect(() => {
       this.columnsWithTasks = this.columnService.getColumnsListWithTasks()();
+      console.log('hello', this.columnsWithTasks);
+      this.cdkDropListConnectedIds = this.columnsWithTasks.map((column) =>
+        column.id.toString()
+      );
     });
   }
 
@@ -50,21 +60,48 @@ export class TableComponent {
   }
 
   drop(event: CdkDragDrop<Task[]>) {
-    console.log('event', event);
     if (event.previousContainer === event.container) {
       moveItemInArray(
         event.container.data,
         event.previousIndex,
         event.currentIndex
       );
+      this.updateIndex(event);
     } else {
-      console.log('transfering');
       transferArrayItem(
         event.previousContainer.data,
         event.container.data,
         event.previousIndex,
         event.currentIndex
       );
+      this.updateStatusColumn(event);
+    }
+  }
+
+  updateIndex(event: CdkDragDrop<Task[]>) {
+    const task = event.container.data.find((task) => {
+      return task.id == +event.item.element.nativeElement.id;
+    });
+    if (task) {
+      task.index = event.currentIndex;
+
+      this.taskService.updateTask(task);
+    }
+  }
+
+  updateStatusColumn(event: CdkDragDrop<Task[]>) {
+    const assignedColumn = this.columnsWithTasks.find(
+      (col) => col.id.toString() === event.container.id
+    );
+    const task = event.container.data.find((task) => {
+      return task.id == +event.item.element.nativeElement.id;
+    });
+    if (assignedColumn && task) {
+      task.statusColumn = {
+        id: assignedColumn.id,
+        name: assignedColumn.name,
+      };
+      this.taskService.updateTask(task);
     }
   }
 }

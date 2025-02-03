@@ -59,9 +59,6 @@ export class UserService {
     });
   }
 
-  /**
-   * Get the current user list signal
-   */
   getAllAppUsers() {
     return this.appUserListSignal; // Return the signal for consumption
   }

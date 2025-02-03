@@ -1,5 +1,10 @@
 <ng-container class="form-container" [formGroup]="taskForm">
   <div class="form-container">
+    <div class="close-button" (click)="closeWithoutSaving()">
+      <button mat-fab>
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
     <mat-form-field class="form-field">
       <mat-label>Title</mat-label>
       <input

@@ -32,6 +32,7 @@ import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { UserService } from '../../services/user.service';
 import { messages } from '../../utils/messages';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-task-form',
@@ -49,6 +50,7 @@ import { messages } from '../../utils/messages';
     ReactiveFormsModule,
     MatDatepickerModule,
     MatSelectModule,
+    MatIconModule,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './task-form.component.html',
@@ -83,8 +85,11 @@ export class TaskFormComponent {
     this.dialogRef.disableClose = true;
     this.dialogRef.backdropClick().subscribe((_) => {
       console.log('this.task', this.taskForm);
+
       if (this.taskForm.valid) {
-        this.dialogRef.close({ data: this.taskForm.value });
+        this.dialogRef.close(
+          this.taskForm.pristine ? null : { data: this.taskForm.value }
+        );
       }
     });
   }
@@ -102,7 +107,6 @@ export class TaskFormComponent {
   }
 
   get description(): AbstractControl {
-    console.log(this.taskForm.get('description')?.hasError('required'));
     return this.taskForm.get('description')!;
   }
 
@@ -116,6 +120,10 @@ export class TaskFormComponent {
         ? { dateInPast: true }
         : null;
     };
+  }
+
+  closeWithoutSaving() {
+    this.dialogRef.close();
   }
 
   updateErrorMessage() {}

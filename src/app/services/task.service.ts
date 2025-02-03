@@ -9,16 +9,7 @@ import { ColumnService } from './column.service';
 export class TaskService {
   private baseUrl = 'http://localhost:8080';
   private taskListSignal = signal<Task[]>([]);
-  constructor(private http: HttpClient, private columnService: ColumnService) {
-    this.loadInitialData();
-  }
-
-  private loadInitialData() {
-    this.http.get<Task[]>(`${this.baseUrl}/tasks`).subscribe({
-      next: (tasks) => this.taskListSignal.set(tasks),
-      error: (err) => console.error('Failed to load tasks', err),
-    });
-  }
+  constructor(private http: HttpClient, private columnService: ColumnService) {}
 
   updateTask(task: Task) {
     this.http.post<Task>(`${this.baseUrl}/tasks`, task).subscribe({
@@ -62,12 +53,5 @@ export class TaskService {
       },
       error: (err) => console.error('Failed to save task', err),
     });
-  }
-
-  /**
-   * Get the current task list signal
-   */
-  getAllTasks() {
-    return this.taskListSignal; // Return the signal for consumption
   }
 }

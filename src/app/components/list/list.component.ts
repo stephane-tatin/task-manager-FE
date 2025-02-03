@@ -19,7 +19,7 @@ import {
 import { TaskFormComponent } from '../task-form/task-form.component';
 import { UserService } from '../../services/user.service';
 import { ColumnWithTasks } from '../../models/columnsWithTasks';
-import { DragDropModule } from '@angular/cdk/drag-drop';
+import { CdkDrag, DragDropModule } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-list',
@@ -39,17 +39,11 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 })
 export class ListComponent {
   @Input() column!: ColumnWithTasks;
-  // tasksList: Task[] = [];
   readonly dialog = inject(MatDialog);
   constructor(
     private taskService: TaskService,
     private userService: UserService
-  ) {
-    // effect(() => {
-    //   this.  @Input() tasks = [];
-    //   = this.taskService.getAllTasks()();
-    // });
-  }
+  ) {}
 
   openTaskDialog(task?: Task): void {
     const dialogRef = this.dialog.open(TaskFormComponent, {
@@ -57,12 +51,14 @@ export class ListComponent {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      const task: Task = this.formTaskToTask(result.data);
-      if (task !== undefined && !task.id) {
-        this.taskService.saveTask(task);
-      }
-      if (task.id) {
-        this.taskService.updateTask(task);
+      if (result) {
+        const task: Task = this.formTaskToTask(result.data);
+        if (task !== undefined && !task.id) {
+          this.taskService.saveTask(task);
+        }
+        if (task.id) {
+          this.taskService.updateTask(task);
+        }
       }
     });
   }
