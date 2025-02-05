@@ -13,7 +13,7 @@ export class ColumnService {
     this.loadData();
   }
 
-  private loadData() {
+  public loadData() {
     this.http.get<ColumnWithTasks[]>(`${this.baseUrl}/columns`).subscribe({
       next: (columns) => this.columnsWithTasks.set(columns),
       error: (err) => console.error('Failed to load tasks', err),

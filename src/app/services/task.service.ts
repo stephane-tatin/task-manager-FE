@@ -8,7 +8,6 @@ import { ColumnService } from './column.service';
 })
 export class TaskService {
   private baseUrl = 'http://localhost:8080';
-  private taskListSignal = signal<Task[]>([]);
   constructor(private http: HttpClient, private columnService: ColumnService) {}
 
   updateTask(task: Task) {
@@ -50,6 +49,16 @@ export class TaskService {
             return column;
           });
         });
+      },
+      error: (err) => console.error('Failed to save task', err),
+    });
+  }
+
+  changeIndex(task: Task) {
+    this.http.post<string>(`${this.baseUrl}/tasks/move`, task).subscribe({
+      next: () => {
+        console.log('task moved successfully');
+        this.columnService.loadData();
       },
       error: (err) => console.error('Failed to save task', err),
     });

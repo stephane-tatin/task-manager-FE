@@ -85,7 +85,7 @@ export class TableComponent {
     if (task) {
       task.index = event.currentIndex;
 
-      this.taskService.updateTask(task);
+      this.taskService.changeIndex(task);
     }
   }
 
