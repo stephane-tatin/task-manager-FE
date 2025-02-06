@@ -8,33 +8,25 @@ import { MatIcon } from '@angular/material/icon';
 import { MatCard, MatCardModule } from '@angular/material/card';
 import { MatButton } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
-import {
-  MatDialog,
-  MatDialogActions,
-  MatDialogClose,
-  MatDialogContent,
-  MatDialogRef,
-  MatDialogTitle,
-} from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { TaskFormComponent } from '../task-form/task-form.component';
 import { UserService } from '../../services/user.service';
 import { ColumnWithTasks } from '../../models/columnsWithTasks';
-import { CdkDrag, DragDropModule } from '@angular/cdk/drag-drop';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @Component({
-    selector: 'app-list',
-    imports: [
-        MatListModule,
-        CardComponent,
-        MatDividerModule,
-        MatIcon,
-        MatCardModule,
-        MatButton,
-        MatDialogModule,
-        DragDropModule,
-    ],
-    templateUrl: './list.component.html',
-    styleUrl: './list.component.scss'
+  selector: 'app-list',
+  imports: [
+    MatListModule,
+    CardComponent,
+    MatDividerModule,
+    MatCardModule,
+    MatButton,
+    MatDialogModule,
+    DragDropModule,
+  ],
+  templateUrl: './list.component.html',
+  styleUrl: './list.component.scss',
 })
 export class ListComponent {
   @Input() column!: ColumnWithTasks;

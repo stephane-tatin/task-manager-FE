@@ -3,7 +3,6 @@ import {
   Component,
   Inject,
   inject,
-  model,
   ChangeDetectionStrategy,
 } from '@angular/core';
 import {
@@ -16,14 +15,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import {
-  MAT_DIALOG_DATA,
-  MatDialogActions,
-  MatDialogClose,
-  MatDialogContent,
-  MatDialogRef,
-  MatDialogTitle,
-} from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { Priority, Task } from '../../models/task.model';
@@ -35,25 +27,21 @@ import { messages } from '../../utils/messages';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-    selector: 'app-task-form',
-    providers: [provideNativeDateAdapter()],
-    imports: [
-        MatFormFieldModule,
-        MatButtonModule,
-        MatDialogActions,
-        MatDialogClose,
-        MatDialogTitle,
-        MatDialogContent,
-        MatInputModule,
-        CommonModule,
-        ReactiveFormsModule,
-        MatDatepickerModule,
-        MatSelectModule,
-        MatIconModule,
-    ],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    templateUrl: './task-form.component.html',
-    styleUrl: './task-form.component.scss'
+  selector: 'app-task-form',
+  providers: [provideNativeDateAdapter()],
+  imports: [
+    MatFormFieldModule,
+    MatButtonModule,
+    MatInputModule,
+    CommonModule,
+    ReactiveFormsModule,
+    MatDatepickerModule,
+    MatSelectModule,
+    MatIconModule,
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  templateUrl: './task-form.component.html',
+  styleUrl: './task-form.component.scss',
 })
 export class TaskFormComponent {
   readonly dialogRef = inject(MatDialogRef<TaskFormComponent>);
