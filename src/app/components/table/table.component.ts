@@ -57,6 +57,7 @@ export class TableComponent {
 
   saveEdit(titleInput: string) {
     this.columnService.saveColumn({ name: titleInput });
+    this.addingList = false;
   }
 
   drop(event: CdkDragDrop<Task[]>) {

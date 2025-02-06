@@ -15,6 +15,18 @@ section {
   display: table;
 }
 
+mat-list {
+  min-height: 30%;
+}
+
+mat-card-content {
+  height: inherit;
+}
+
+mat-card {
+  height: -webkit-fill-available;
+}
+
 .example-label {
   display: table-cell;
   font-size: 14px;

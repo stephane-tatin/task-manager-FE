@@ -22,9 +22,9 @@ export class CardComponent {
       case Priority.HIGH:
         return { name: 'keyboard_double_arrow_up', class: 'red' };
       case Priority.MODERATE:
-        return { name: 'keyboard_double_arrow_up', class: 'red' };
-      case Priority.LOW:
         return { name: 'keyboard_double_arrow_up', class: 'blue' };
+      case Priority.LOW:
+        return { name: 'keyboard_double_arrow_down', class: 'blue' };
     }
     return { name: 'keyboard_double_arrow_down', class: 'blue' };
   }
