@@ -35,26 +35,25 @@ import { messages } from '../../utils/messages';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-  selector: 'app-task-form',
-  standalone: true,
-  providers: [provideNativeDateAdapter()],
-  imports: [
-    MatFormFieldModule,
-    MatButtonModule,
-    MatDialogActions,
-    MatDialogClose,
-    MatDialogTitle,
-    MatDialogContent,
-    MatInputModule,
-    CommonModule,
-    ReactiveFormsModule,
-    MatDatepickerModule,
-    MatSelectModule,
-    MatIconModule,
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './task-form.component.html',
-  styleUrl: './task-form.component.scss',
+    selector: 'app-task-form',
+    providers: [provideNativeDateAdapter()],
+    imports: [
+        MatFormFieldModule,
+        MatButtonModule,
+        MatDialogActions,
+        MatDialogClose,
+        MatDialogTitle,
+        MatDialogContent,
+        MatInputModule,
+        CommonModule,
+        ReactiveFormsModule,
+        MatDatepickerModule,
+        MatSelectModule,
+        MatIconModule,
+    ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    templateUrl: './task-form.component.html',
+    styleUrl: './task-form.component.scss'
 })
 export class TaskFormComponent {
   readonly dialogRef = inject(MatDialogRef<TaskFormComponent>);

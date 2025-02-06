@@ -7,11 +7,10 @@ import { CommonModule } from '@angular/common';
 import { CdkDrag } from '@angular/cdk/drag-drop';
 
 @Component({
-  selector: 'app-card',
-  standalone: true,
-  imports: [MatCardModule, MatButtonModule, MatIcon, CommonModule, CdkDrag],
-  templateUrl: './card.component.html',
-  styleUrl: './card.component.scss',
+    selector: 'app-card',
+    imports: [MatCardModule, MatButtonModule, MatIcon, CommonModule, CdkDrag],
+    templateUrl: './card.component.html',
+    styleUrl: './card.component.scss'
 })
 export class CardComponent {
   @Input() task!: Task;

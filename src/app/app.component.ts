@@ -9,19 +9,18 @@ import { TaskService } from './services/task.service';
 import { ListComponent } from './components/list/list.component';
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [
-    RouterOutlet,
-    MatSlideToggleModule,
-    MatIconModule,
-    MatButtonModule,
-    MatCardModule,
-    RouterOutlet,
-    ListComponent,
-  ],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss',
+    selector: 'app-root',
+    imports: [
+        RouterOutlet,
+        MatSlideToggleModule,
+        MatIconModule,
+        MatButtonModule,
+        MatCardModule,
+        RouterOutlet,
+        ListComponent,
+    ],
+    templateUrl: './app.component.html',
+    styleUrl: './app.component.scss'
 })
 export class AppComponent {
   title = 'material';

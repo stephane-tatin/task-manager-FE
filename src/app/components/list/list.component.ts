@@ -22,20 +22,19 @@ import { ColumnWithTasks } from '../../models/columnsWithTasks';
 import { CdkDrag, DragDropModule } from '@angular/cdk/drag-drop';
 
 @Component({
-  selector: 'app-list',
-  standalone: true,
-  imports: [
-    MatListModule,
-    CardComponent,
-    MatDividerModule,
-    MatIcon,
-    MatCardModule,
-    MatButton,
-    MatDialogModule,
-    DragDropModule,
-  ],
-  templateUrl: './list.component.html',
-  styleUrl: './list.component.scss',
+    selector: 'app-list',
+    imports: [
+        MatListModule,
+        CardComponent,
+        MatDividerModule,
+        MatIcon,
+        MatCardModule,
+        MatButton,
+        MatDialogModule,
+        DragDropModule,
+    ],
+    templateUrl: './list.component.html',
+    styleUrl: './list.component.scss'
 })
 export class ListComponent {
   @Input() column!: ColumnWithTasks;

@@ -18,20 +18,19 @@ import { Task } from '../../models/task.model';
 import { TaskService } from '../../services/task.service';
 
 @Component({
-  selector: 'app-table',
-  standalone: true,
-  imports: [
-    ListComponent,
-    CommonModule,
-    MatButton,
-    MatLabel,
-    MatFormField,
-    MatInputModule,
-    CdkDrag,
-    CdkDropList,
-  ],
-  templateUrl: './table.component.html',
-  styleUrl: './table.component.scss',
+    selector: 'app-table',
+    imports: [
+        ListComponent,
+        CommonModule,
+        MatButton,
+        MatLabel,
+        MatFormField,
+        MatInputModule,
+        CdkDrag,
+        CdkDropList,
+    ],
+    templateUrl: './table.component.html',
+    styleUrl: './table.component.scss'
 })
 export class TableComponent {
   addingList = false;
