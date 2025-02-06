@@ -10,6 +10,7 @@ import {
   CdkDragDrop,
   moveItemInArray,
   transferArrayItem,
+  CdkDrag,
   CdkDropList,
 } from '@angular/cdk/drag-drop';
 import { Task } from '../../models/task.model';
@@ -24,6 +25,7 @@ import { TaskService } from '../../services/task.service';
     MatLabel,
     MatFormField,
     MatInputModule,
+    CdkDrag,
     CdkDropList,
   ],
   templateUrl: './table.component.html',
