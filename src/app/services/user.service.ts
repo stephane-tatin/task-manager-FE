@@ -13,26 +13,6 @@ export class UserService {
   }
 
   private loadInitialData() {
-    const fakeUsers: AppUser[] = [
-      {
-        id: 1,
-        firstName: 'Stéphane',
-        lastName: 'Tatin',
-        userName: 'STE',
-        password: 'password',
-        role: Role.USER,
-      },
-
-      {
-        id: 1,
-        firstName: 'StéphaneAdmin',
-        lastName: 'Tatin',
-        userName: 'STE',
-        password: 'password',
-        role: Role.ADMIN,
-      },
-    ];
-
     this.http.get<AppUser[]>(`${this.baseUrl}/users`).subscribe({
       next: (users) => this.appUserListSignal.set(users),
       error: (err) => console.error('Failed to load users', err),
@@ -60,6 +40,6 @@ export class UserService {
   }
 
   getAllAppUsers() {
-    return this.appUserListSignal; // Return the signal for consumption
+    return this.appUserListSignal;
   }
 }

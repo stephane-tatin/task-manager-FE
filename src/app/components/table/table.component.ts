@@ -1,20 +1,22 @@
-import { Component, effect } from '@angular/core';
+import { Component, effect, inject } from '@angular/core';
 import { ColumnWithTasks } from '../../models/columnsWithTasks';
 import { ColumnService } from '../../services/column.service';
 import { ListComponent } from '../list/list.component';
 import { CommonModule } from '@angular/common';
 import { MatButton } from '@angular/material/button';
-import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import {
   CdkDragDrop,
   moveItemInArray,
   transferArrayItem,
-  CdkDrag,
   CdkDropList,
 } from '@angular/cdk/drag-drop';
 import { Task } from '../../models/task.model';
 import { TaskService } from '../../services/task.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ListFormComponent } from '../list-form/list-form.component';
+import { Column } from '../../models/column';
+import { FormDialogService } from '../../services/form-dialog.service';
 
 @Component({
   selector: 'app-table',
@@ -22,10 +24,7 @@ import { TaskService } from '../../services/task.service';
     ListComponent,
     CommonModule,
     MatButton,
-    MatLabel,
-    MatFormField,
     MatInputModule,
-    CdkDrag,
     CdkDropList,
   ],
   templateUrl: './table.component.html',
@@ -35,10 +34,12 @@ export class TableComponent {
   addingList = false;
   columnsWithTasks: ColumnWithTasks[] = [];
   cdkDropListConnectedIds: string[] = [];
+  readonly dialog = inject(MatDialog);
 
   constructor(
     private columnService: ColumnService,
-    private taskService: TaskService
+    private taskService: TaskService,
+    private formDialogService: FormDialogService
   ) {
     effect(() => {
       this.columnsWithTasks = this.columnService.getColumnsListWithTasks()();
@@ -49,16 +50,12 @@ export class TableComponent {
     });
   }
 
-  addList() {
-    this.addingList = true;
-  }
-
-  saveEdit(titleInput: string) {
-    this.columnService.saveColumn({ name: titleInput });
-    this.addingList = false;
+  openListDialog() {
+    this.formDialogService.openListDialog();
   }
 
   drop(event: CdkDragDrop<Task[]>) {
+    console.log(event);
     if (event.previousContainer === event.container) {
       moveItemInArray(
         event.container.data,
@@ -79,7 +76,7 @@ export class TableComponent {
 
   updateIndex(event: CdkDragDrop<Task[]>) {
     const task = event.container.data.find((task) => {
-      return task.id == +event.item.element.nativeElement.id;
+      return task.id == event.item.element.nativeElement.id;
     });
     if (task) {
       task.index = event.currentIndex;
@@ -89,17 +86,19 @@ export class TableComponent {
   }
 
   updateStatusColumn(event: CdkDragDrop<Task[]>) {
+    console.log('updateing status');
     const assignedColumn = this.columnsWithTasks.find(
       (col) => col.id.toString() === event.container.id
     );
     const task = event.container.data.find((task) => {
-      return task.id == +event.item.element.nativeElement.id;
+      console.log(task.id);
+      return task.id == event.item.element.nativeElement.id;
     });
+    console.log('assignedColumn', assignedColumn);
+    // console.log('task', task.id);
+    console.log('task', event.item.element.nativeElement.id);
+
     if (assignedColumn && task) {
-      task.statusColumn = {
-        id: assignedColumn.id,
-        name: assignedColumn.name,
-      };
       this.taskService.updateTask(task);
     }
   }

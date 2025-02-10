@@ -1,6 +1,6 @@
 <mat-card class="list-container">
-  <mat-card-header class="list-header">
-    <mat-card-title>{{ column.name }}</mat-card-title>
+  <mat-card-header class="list-header" (click)="openListDialog(column)">
+    <mat-card-title>{{ column.title }}</mat-card-title>
   </mat-card-header>
   <button mat-button color="primary" (click)="openTaskDialog()">
     Add task

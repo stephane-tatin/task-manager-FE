@@ -16,21 +16,10 @@
     <button
       mat-button
       color="primary"
-      (click)="addList()"
-      *ngIf="!addingList"
+      (click)="openListDialog()"
       class="add-list-button"
     >
       Add list
     </button>
   </div>
-
-  <mat-form-field class="form-field" *ngIf="addingList">
-    <mat-label>Title</mat-label>
-    <input
-      matInput
-      #titleInput
-      (blur)="saveEdit(titleInput.value)"
-      (keydown.enter)="saveEdit(titleInput.value)"
-    />
-  </mat-form-field>
 </div>

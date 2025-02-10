@@ -8,25 +8,14 @@ export enum Priority {
 }
 
 export interface Task {
-  id: number;
+  id: string;
   title: string;
   description?: string;
   priority?: Priority;
   createdAt?: Date;
   modifiedAt?: Date;
   targetTime?: Date;
-  assignedTo?: AppUser;
-  statusColumn: Column;
+  assignedToId?: string;
+  statusColumnId: string;
   index?: number;
-}
-
-export interface FormTaskData {
-  id: number;
-  title: string;
-  description?: string;
-  priority?: Priority;
-  createdAt?: Date;
-  modifiedAt?: Date;
-  targetTime?: Date;
-  assignedTo?: string;
 }

@@ -1,63 +1,58 @@
-<ng-container class="form-container" [formGroup]="taskForm">
-  <div class="form-container">
-    <div class="close-button" (click)="closeWithoutSaving()">
-      <button mat-fab>
-        <mat-icon>close</mat-icon>
-      </button>
-    </div>
-    <mat-form-field class="form-field">
-      <mat-label>Title</mat-label>
-      <input
-        matInput
-        placeholder="title"
-        formControlName="title"
-        (blur)="updateErrorMessage()"
-        required
-      />
-      @if (title.hasError('required')) {
-      <mat-error>{{ messages.required("title") }}</mat-error>
-      }
-    </mat-form-field>
-    <mat-form-field class="form-field">
-      <mat-label>Description of the task</mat-label>
-      <textarea
-        matInput
-        placeholder="description"
-        formControlName="description"
-        (blur)="updateErrorMessage()"
-        required
-      ></textarea>
-      @if (title.hasError('required')) {
-      <mat-error>{{ messages.required("description") }}</mat-error>
-      }
-    </mat-form-field>
-    <mat-form-field class="form-field">
-      <mat-label>Priority</mat-label>
-      <mat-select formControlName="priority">
-        @for (priorityLevel of priorityLevels; track priorityLevel) {
-        <mat-option [value]="priorityLevel">{{ priorityLevel }}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field class="form-field">
-      <mat-label>targetTime</mat-label>
-      <input matInput [matDatepicker]="picker" formControlName="targetTime" />
-      <mat-datepicker-toggle
-        matIconSuffix
-        [for]="picker"
-      ></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-      @if (targetTime.hasError('dateInPast')) {
-      <mat-error>{{ messages.dateInPast }}</mat-error>
-      }
-    </mat-form-field>
-    <mat-form-field class="form-field">
-      <mat-label>Assigned to</mat-label>
-      <mat-select formControlName="assignedTo">
-        @for (user of appUsers; track user) {
-        <mat-option [value]="user.id">{{ user.userName }}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
+<div class="form-container" [formGroup]="taskForm">
+  <div class="close-button" (click)="closeWithoutSaving()">
+    <button mat-fab>
+      <mat-icon>close</mat-icon>
+    </button>
   </div>
-</ng-container>
+  <mat-form-field class="form-field">
+    <mat-label>Title</mat-label>
+    <input
+      matInput
+      placeholder="title"
+      formControlName="title"
+      (blur)="updateErrorMessage()"
+      required
+    />
+    @if (title.hasError('required')) {
+    <mat-error>{{ messages.required("title") }}</mat-error>
+    }
+  </mat-form-field>
+  <mat-form-field class="form-field">
+    <mat-label>Description of the task</mat-label>
+    <textarea
+      matInput
+      placeholder="description"
+      formControlName="description"
+      (blur)="updateErrorMessage()"
+      required
+    ></textarea>
+    @if (title.hasError('required')) {
+    <mat-error>{{ messages.required("description") }}</mat-error>
+    }
+  </mat-form-field>
+  <mat-form-field class="form-field">
+    <mat-label>Priority</mat-label>
+    <mat-select formControlName="priority">
+      @for (priorityLevel of priorityLevels; track priorityLevel) {
+      <mat-option [value]="priorityLevel">{{ priorityLevel }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field class="form-field">
+    <mat-label>targetTime</mat-label>
+    <input matInput [matDatepicker]="picker" formControlName="targetTime" />
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+    @if (targetTime.hasError('dateInPast')) {
+    <mat-error>{{ messages.dateInPast }}</mat-error>
+    }
+  </mat-form-field>
+  <mat-form-field class="form-field">
+    <mat-label>Assigned to</mat-label>
+    <mat-select formControlName="assignedToId">
+      @for (user of appUsers; track user) {
+      <mat-option [value]="user.id">{{ user.userName }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+</div>

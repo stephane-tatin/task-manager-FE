@@ -52,6 +52,7 @@ export class TaskFormComponent {
     @Inject(MAT_DIALOG_DATA) public task: Task,
     private userService: UserService
   ) {
+    console.log('task', task);
     this.taskForm = new FormGroup(
       {
         id: new FormControl(task?.id),
@@ -63,7 +64,8 @@ export class TaskFormComponent {
           this.dateInPastValidator(),
         ]),
         priority: new FormControl(task?.priority || Priority.LOW),
-        assignedTo: new FormControl(task?.assignedTo?.id || ''),
+        assignedToId: new FormControl(task?.assignedToId || ''),
+        statusColumnId: new FormControl(task?.statusColumnId || ''),
         createdAt: new FormControl(task?.createdAt),
       },
       { updateOn: 'blur' }

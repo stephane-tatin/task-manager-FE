@@ -20,16 +20,24 @@ export class ColumnService {
     });
   }
 
-  // updateColumn(task: Task) {
-  //   this.http.post<Task>(`${this.baseUrl}/tasks`, task).subscribe({
-  //     next: (savedTask) => {
-  //       this.taskListSignal.update((tasks) =>
-  //         tasks.map((task) => (task.id === savedTask.id ? savedTask : task))
-  //       );
-  //     },
-  //     error: (err) => console.error('Failed to save task', err),
-  //   });
-  // }
+  updateColumn(column: Column) {
+    this.http
+      .post<ColumnWithTasks>(`${this.baseUrl}/columns`, column)
+      .subscribe({
+        next: (savedColumn) => {
+          this.columnsWithTasks.update((columns) => {
+            return columns.map((column) => {
+              if (column.id === savedColumn.id) {
+                return savedColumn;
+              }
+              return column;
+            });
+          });
+          this.loadData();
+        },
+        error: (err) => console.error('Failed to update column', err),
+      });
+  }
 
   saveColumn(column: Column) {
     this.http
@@ -37,14 +45,13 @@ export class ColumnService {
       .subscribe({
         next: (savedColumn) => {
           this.columnsWithTasks.update((columns) => [...columns, savedColumn]);
+          this.loadData();
         },
-        error: (err) => console.error('Failed to save task', err),
+        error: (err) => console.error('Failed to save column', err),
       });
-
-    this.loadData;
   }
 
   getColumnsListWithTasks() {
-    return this.columnsWithTasks; // Return the signal for consumption
+    return this.columnsWithTasks;
   }
 }

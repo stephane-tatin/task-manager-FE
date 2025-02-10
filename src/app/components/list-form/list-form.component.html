@@ -1,36 +1,7 @@
-<div cdkDropListGroup class="table-container">
-  @for (column of columnsWithTasks; track column.id) {
-  <app-list
-    [column]="column"
-    [id]="column.id.toString()"
-    [cdkDropListConnectedTo]="cdkDropListConnectedIds"
-    cdkDropList
-    [cdkDropListData]="column.tasks"
-    (cdkDropListDropped)="drop($event)"
-  >
-    > ></app-list
-  >
-  }
-
-  <div>
-    <button
-      mat-button
-      color="primary"
-      (click)="addList()"
-      *ngIf="!addingList"
-      class="add-list-button"
-    >
-      Add list
-    </button>
-  </div>
-
-  <mat-form-field class="form-field" *ngIf="addingList">
+<div class="form-container" [formGroup]="listForm">
+  <h2>Edit column name</h2>
+  <mat-form-field class="form-field">
     <mat-label>Title</mat-label>
-    <input
-      matInput
-      #titleInput
-      (blur)="saveEdit(titleInput.value)"
-      (keydown.enter)="saveEdit(titleInput.value)"
-    />
+    <input matInput placeholder="title" formControlName="title" />
   </mat-form-field>
 </div>

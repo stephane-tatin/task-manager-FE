@@ -1,7 +1,7 @@
 import { Component, effect, inject, Input } from '@angular/core';
 import { TaskService } from '../../services/task.service';
 import { MatListModule } from '@angular/material/list';
-import { FormTaskData, Task } from '../../models/task.model';
+import { Task } from '../../models/task.model';
 import { CardComponent } from '../card/card.component';
 import { MatDivider, MatDividerModule } from '@angular/material/divider';
 import { MatIcon } from '@angular/material/icon';
@@ -13,6 +13,7 @@ import { TaskFormComponent } from '../task-form/task-form.component';
 import { UserService } from '../../services/user.service';
 import { ColumnWithTasks } from '../../models/columnsWithTasks';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { FormDialogService } from '../../services/form-dialog.service';
 
 @Component({
   selector: 'app-list',
@@ -33,7 +34,8 @@ export class ListComponent {
   readonly dialog = inject(MatDialog);
   constructor(
     private taskService: TaskService,
-    private userService: UserService
+    private userService: UserService,
+    private formDialogService: FormDialogService
   ) {}
 
   openTaskDialog(task?: Task): void {
@@ -43,7 +45,8 @@ export class ListComponent {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        const task: Task = this.formTaskToTask(result.data);
+        console.log('res', result);
+        const task: Task = result.data;
         if (task !== undefined && !task.id) {
           this.taskService.saveTask(task);
         }
@@ -54,15 +57,7 @@ export class ListComponent {
     });
   }
 
-  formTaskToTask(formTask: FormTaskData): Task {
-    const task: Task = {
-      ...formTask,
-      assignedTo: this.userService
-        .appUserListSignal()
-        .find((user) => user.id.toString() == formTask?.assignedTo),
-      statusColumn: this.column,
-    };
-
-    return task;
+  openListDialog(column: ColumnWithTasks) {
+    this.formDialogService.openListDialog(column);
   }
 }

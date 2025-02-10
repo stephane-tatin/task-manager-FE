@@ -15,7 +15,7 @@ export class TaskService {
       next: (savedTask) => {
         this.columnService.columnsWithTasks.update((columns) => {
           return columns.map((column) => {
-            if (column.id === savedTask.statusColumn.id) {
+            if (column.id === savedTask.statusColumnId) {
               return {
                 ...column,
                 tasks: column.tasks.map((task) => {
@@ -31,7 +31,7 @@ export class TaskService {
           });
         });
       },
-      error: (err) => console.error('Failed to save task', err),
+      error: (err) => console.error('Failed to update task', err),
     });
   }
 
@@ -40,7 +40,7 @@ export class TaskService {
       next: (savedTask) => {
         this.columnService.columnsWithTasks.update((columns) => {
           return columns.map((column) => {
-            if (column.id === savedTask.statusColumn.id) {
+            if (column.id === savedTask.statusColumnId) {
               return {
                 ...column,
                 tasks: column.tasks.concat(savedTask),

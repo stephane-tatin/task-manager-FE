@@ -12,6 +12,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { ColumnWithTasks } from '../../models/columnsWithTasks';
 
 @Component({
   selector: 'app-list-form',
@@ -29,7 +30,7 @@ export class ListFormComponent {
   readonly dialogRef = inject(MatDialogRef<ListFormComponent>);
   listForm!: FormGroup;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any) {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: ColumnWithTasks) {
     this.listForm = new FormGroup(
       {
         id: new FormControl(data?.id),
@@ -48,13 +49,7 @@ export class ListFormComponent {
     });
   }
 
-  // get title(): AbstractControl {
-  //   return this.taskForm.get('title')!;
-  // }
-
   closeWithoutSaving() {
     this.dialogRef.close();
   }
-
-  updateErrorMessage() {}
 }
