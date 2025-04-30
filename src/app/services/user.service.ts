@@ -1,5 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import { AppUser, Role } from '../models/app-user.model';
+import { AppUser } from '../models/app-user.model';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({

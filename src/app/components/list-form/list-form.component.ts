@@ -41,6 +41,7 @@ export class ListFormComponent {
 
     this.dialogRef.disableClose = true;
     this.dialogRef.backdropClick().subscribe((_) => {
+      console.log(_);
       if (this.listForm.valid) {
         this.dialogRef.close(
           this.listForm.pristine ? null : { data: this.listForm.value }

@@ -14,8 +14,6 @@ import {
 import { Task } from '../../models/task.model';
 import { TaskService } from '../../services/task.service';
 import { MatDialog } from '@angular/material/dialog';
-import { ListFormComponent } from '../list-form/list-form.component';
-import { Column } from '../../models/column';
 import { FormDialogService } from '../../services/form-dialog.service';
 
 @Component({
@@ -43,7 +41,6 @@ export class TableComponent {
   ) {
     effect(() => {
       this.columnsWithTasks = this.columnService.getColumnsListWithTasks()();
-      console.log('hello', this.columnsWithTasks);
       this.cdkDropListConnectedIds = this.columnsWithTasks.map((column) =>
         column.id.toString()
       );
@@ -86,7 +83,6 @@ export class TableComponent {
   }
 
   updateStatusColumn(event: CdkDragDrop<Task[]>) {
-    console.log('updateing status');
     const assignedColumn = this.columnsWithTasks.find(
       (col) => col.id.toString() === event.container.id
     );
@@ -94,12 +90,11 @@ export class TableComponent {
       console.log(task.id);
       return task.id == event.item.element.nativeElement.id;
     });
-    console.log('assignedColumn', assignedColumn);
-    // console.log('task', task.id);
-    console.log('task', event.item.element.nativeElement.id);
 
-    if (assignedColumn && task) {
-      this.taskService.updateTask(task);
+    if (task && assignedColumn) {
+      task.statusColumnId = assignedColumn?.id;
+      this.taskService.saveTask(task);
+      this.updateIndex(event);
     }
   }
 }

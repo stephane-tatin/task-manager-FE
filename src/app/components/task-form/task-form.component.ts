@@ -73,7 +73,7 @@ export class TaskFormComponent {
 
     this.dialogRef.disableClose = true;
     this.dialogRef.backdropClick().subscribe((_) => {
-      console.log('this.task', this.taskForm);
+      console.log('this.task', _);
 
       if (this.taskForm.valid) {
         this.dialogRef.close(
@@ -114,6 +114,4 @@ export class TaskFormComponent {
   closeWithoutSaving() {
     this.dialogRef.close();
   }
-
-  updateErrorMessage() {}
 }

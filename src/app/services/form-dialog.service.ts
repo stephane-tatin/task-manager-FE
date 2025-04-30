@@ -46,12 +46,7 @@ export class FormDialogService {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         const task: Task = result.data;
-        if (task !== undefined && !task.id) {
-          this.taskService.saveTask(task);
-        }
-        if (task.id) {
-          this.taskService.updateTask(task);
-        }
+        this.taskService.saveTask(task);
       }
     });
   }

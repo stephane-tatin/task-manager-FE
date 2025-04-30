@@ -1,6 +1,3 @@
-import { AppUser } from './app-user.model';
-import { Column } from './column';
-
 export enum Priority {
   LOW = 'LOW',
   MODERATE = 'MODERATE',

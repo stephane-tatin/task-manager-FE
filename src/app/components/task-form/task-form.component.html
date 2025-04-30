@@ -1,5 +1,10 @@
 <div class="form-container" [formGroup]="taskForm">
-  <div class="close-button" (click)="closeWithoutSaving()">
+  <div
+    tabindex="0"
+    class="close-button"
+    (click)="closeWithoutSaving()"
+    (keydown.enter)="handleClick()"
+  >
     <button mat-fab>
       <mat-icon>close</mat-icon>
     </button>

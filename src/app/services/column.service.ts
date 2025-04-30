@@ -21,10 +21,12 @@ export class ColumnService {
   }
 
   updateColumn(column: Column) {
+    console.log('updateing column', column);
     this.http
       .post<ColumnWithTasks>(`${this.baseUrl}/columns`, column)
       .subscribe({
         next: (savedColumn) => {
+          console.log('savedColumn', savedColumn);
           this.columnsWithTasks.update((columns) => {
             return columns.map((column) => {
               if (column.id === savedColumn.id) {
@@ -38,7 +40,6 @@ export class ColumnService {
         error: (err) => console.error('Failed to update column', err),
       });
   }
-
   saveColumn(column: Column) {
     this.http
       .post<ColumnWithTasks>(`${this.baseUrl}/columns`, column)

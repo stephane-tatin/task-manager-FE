@@ -1,11 +1,10 @@
-import { Component, effect, inject, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { TaskService } from '../../services/task.service';
 import { MatListModule } from '@angular/material/list';
 import { Task } from '../../models/task.model';
 import { CardComponent } from '../card/card.component';
-import { MatDivider, MatDividerModule } from '@angular/material/divider';
-import { MatIcon } from '@angular/material/icon';
-import { MatCard, MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatCardModule } from '@angular/material/card';
 import { MatButton } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDialog } from '@angular/material/dialog';
@@ -45,14 +44,9 @@ export class ListComponent {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        console.log('res', result);
         const task: Task = result.data;
-        if (task !== undefined && !task.id) {
-          this.taskService.saveTask(task);
-        }
-        if (task.id) {
-          this.taskService.updateTask(task);
-        }
+        task.statusColumnId = this.column.id;
+        this.taskService.saveTask(task);
       }
     });
   }

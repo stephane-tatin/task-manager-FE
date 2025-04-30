@@ -15,9 +15,9 @@
     <p>{{ task.description }}</p>
     <mat-icon [class]="priorityIcon.class">{{ priorityIcon.name }}</mat-icon>
   </mat-card-content>
-  @if(task.assignedTo && task.assignedTo.userName) {
+  @if(task.assignedToId) {
   <mat-card-actions align-content="end">
-    assigned to {{ task.assignedTo.userName }}
+    assigned to {{ task.assignedToId }}
   </mat-card-actions>
   }
 </mat-card>
