@@ -5,7 +5,7 @@ import { Task } from '../../models/task.model';
 import { CardComponent } from '../card/card.component';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatCardModule } from '@angular/material/card';
-import { MatButton } from '@angular/material/button';
+import { MatButton, MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDialog } from '@angular/material/dialog';
 import { TaskFormComponent } from '../task-form/task-form.component';
@@ -13,6 +13,8 @@ import { UserService } from '../../services/user.service';
 import { ColumnWithTasks } from '../../models/columnsWithTasks';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { FormDialogService } from '../../services/form-dialog.service';
+import { MatIconModule } from '@angular/material/icon';
+import { ColumnService } from '../../services/column.service';
 
 @Component({
   selector: 'app-list',
@@ -22,8 +24,10 @@ import { FormDialogService } from '../../services/form-dialog.service';
     MatDividerModule,
     MatCardModule,
     MatButton,
+    MatButtonModule,
     MatDialogModule,
     DragDropModule,
+    MatIconModule,
   ],
   templateUrl: './list.component.html',
   styleUrl: './list.component.scss',
@@ -34,7 +38,8 @@ export class ListComponent {
   constructor(
     private taskService: TaskService,
     private userService: UserService,
-    private formDialogService: FormDialogService
+    private formDialogService: FormDialogService,
+    private columnService: ColumnService
   ) {}
 
   openTaskDialog(task?: Task): void {
@@ -53,5 +58,9 @@ export class ListComponent {
 
   openListDialog(column: ColumnWithTasks) {
     this.formDialogService.openListDialog(column);
+  }
+
+  deleteList() {
+    this.columnService.delete(this.column.id);
   }
 }

@@ -9,8 +9,8 @@ export const routes: Routes = [
   {
     path: 'list',
     loadComponent: () =>
-      import(`./components/table/table.component`).then(
-        (m) => m.TableComponent
+      import(`./components/main-view/main-view.component`).then(
+        (m) => m.MainViewComponent
       ),
   },
 ];

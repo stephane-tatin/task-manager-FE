@@ -3,9 +3,9 @@
     tabindex="0"
     class="close-button"
     (click)="closeWithoutSaving()"
-    (keydown.enter)="handleClick()"
+    (keydown.enter)="closeWithoutSaving()"
   >
-    <button mat-fab>
+    <button mat-mini-fab>
       <mat-icon>close</mat-icon>
     </button>
   </div>
@@ -60,4 +60,14 @@
       }
     </mat-select>
   </mat-form-field>
+  <div
+    tabindex="0"
+    class="delete-button"
+    (click)="deleteTask()"
+    (keydown.enter)="deleteTask()"
+  >
+    <button mat-mini-fab>
+      <mat-icon>delete</mat-icon>
+    </button>
+  </div>
 </div>

@@ -17,7 +17,7 @@
   </mat-card-content>
   @if(task.assignedToId) {
   <mat-card-actions align-content="end">
-    assigned to {{ task.assignedToId }}
+    assigned to {{ getUserName() }}
   </mat-card-actions>
   }
 </mat-card>

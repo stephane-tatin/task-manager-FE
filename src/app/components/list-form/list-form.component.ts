@@ -13,6 +13,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { ColumnWithTasks } from '../../models/columnsWithTasks';
+import { filter } from 'rxjs';
+import { FormDialogService } from '../../services/form-dialog.service';
 
 @Component({
   selector: 'app-list-form',
@@ -30,23 +32,29 @@ export class ListFormComponent {
   readonly dialogRef = inject(MatDialogRef<ListFormComponent>);
   listForm!: FormGroup;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: ColumnWithTasks) {
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: ColumnWithTasks,
+    private formDialogService: FormDialogService
+  ) {
     this.listForm = new FormGroup(
       {
         id: new FormControl(data?.id),
         title: new FormControl(data?.title || '', [Validators.required]),
       },
-      { updateOn: 'blur' }
+      { updateOn: 'change' }
     );
 
     this.dialogRef.disableClose = true;
-    this.dialogRef.backdropClick().subscribe((_) => {
-      console.log(_);
-      if (this.listForm.valid) {
-        this.dialogRef.close(
-          this.listForm.pristine ? null : { data: this.listForm.value }
-        );
-      }
+
+    this.dialogRef
+      .keydownEvents()
+      .pipe(filter((e) => e.key === 'Enter' || e.key === 'Escape'))
+      .subscribe(() => {
+        this.formDialogService.handleDialogData(this.dialogRef, this.listForm);
+      });
+
+    this.dialogRef.backdropClick().subscribe(() => {
+      this.formDialogService.handleDialogData(this.dialogRef, this.listForm);
     });
   }
 

@@ -5,14 +5,16 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { CdkDrag } from '@angular/cdk/drag-drop';
+import { UserService } from '../../services/user.service';
 
 @Component({
-    selector: 'app-card',
-    imports: [MatCardModule, MatButtonModule, MatIcon, CommonModule, CdkDrag],
-    templateUrl: './card.component.html',
-    styleUrl: './card.component.scss'
+  selector: 'app-card',
+  imports: [MatCardModule, MatButtonModule, MatIcon, CommonModule, CdkDrag],
+  templateUrl: './card.component.html',
+  styleUrl: './card.component.scss',
 })
 export class CardComponent {
+  constructor(private userService: UserService) {}
   @Input() task!: Task;
 
   get priorityIcon() {
@@ -26,5 +28,13 @@ export class CardComponent {
         return { name: 'keyboard_double_arrow_down', class: 'blue' };
     }
     return { name: 'keyboard_double_arrow_down', class: 'blue' };
+  }
+
+  getUserName(): string {
+    return (
+      (this.task.assignedToId &&
+        this.userService.getUserById(this.task.assignedToId)?.userName) ||
+      ''
+    );
   }
 }

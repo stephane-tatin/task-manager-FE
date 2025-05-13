@@ -14,5 +14,10 @@
 .close-button {
   display: flex;
   align-self: flex-end;
-  padding-bottom: 10px;
+  padding-bottom: 15px;
+}
+
+.delete-button {
+  display: flex;
+  align-self: flex-start;
 }

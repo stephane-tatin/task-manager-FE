@@ -12,3 +12,8 @@ export interface AppUser {
   password: string;
   role?: Role;
 }
+
+export interface AuthUser {
+  username: string;
+  password: string;
+}

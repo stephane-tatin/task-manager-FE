@@ -7,12 +7,8 @@ import {
 } from '@angular/core';
 import {
   AbstractControl,
-  FormControl,
   FormGroup,
   ReactiveFormsModule,
-  ValidationErrors,
-  ValidatorFn,
-  Validators,
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
@@ -25,6 +21,10 @@ import { MatSelectModule } from '@angular/material/select';
 import { UserService } from '../../services/user.service';
 import { messages } from '../../utils/messages';
 import { MatIconModule } from '@angular/material/icon';
+import { filter } from 'rxjs';
+import { FormService } from '../../services/form.service';
+import { FormDialogService } from '../../services/form-dialog.service';
+import { TaskService } from '../../services/task.service';
 
 @Component({
   selector: 'app-task-form',
@@ -50,37 +50,13 @@ export class TaskFormComponent {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public task: Task,
-    private userService: UserService
+    private userService: UserService,
+    private formService: FormService,
+    private formDialogService: FormDialogService,
+    private taskService: TaskService
   ) {
-    console.log('task', task);
-    this.taskForm = new FormGroup(
-      {
-        id: new FormControl(task?.id),
-        title: new FormControl(task?.title || '', [Validators.required]),
-        description: new FormControl(task?.description || '', [
-          Validators.required,
-        ]),
-        targetTime: new FormControl(task?.targetTime || '', [
-          this.dateInPastValidator(),
-        ]),
-        priority: new FormControl(task?.priority || Priority.LOW),
-        assignedToId: new FormControl(task?.assignedToId || ''),
-        statusColumnId: new FormControl(task?.statusColumnId || ''),
-        createdAt: new FormControl(task?.createdAt),
-      },
-      { updateOn: 'blur' }
-    );
-
-    this.dialogRef.disableClose = true;
-    this.dialogRef.backdropClick().subscribe((_) => {
-      console.log('this.task', _);
-
-      if (this.taskForm.valid) {
-        this.dialogRef.close(
-          this.taskForm.pristine ? null : { data: this.taskForm.value }
-        );
-      }
-    });
+    this.taskForm = this.formService.initTaskForm(task);
+    this.initDialogConfig();
   }
 
   get priorityLevels() {
@@ -103,15 +79,28 @@ export class TaskFormComponent {
     return this.taskForm.get('targetTime')!;
   }
 
-  dateInPastValidator(): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
-      return Date.now() > Date.parse(control.value)
-        ? { dateInPast: true }
-        : null;
-    };
+  closeWithoutSaving() {
+    this.dialogRef.close();
   }
 
-  closeWithoutSaving() {
+  initDialogConfig() {
+    this.dialogRef.disableClose = true;
+    this.dialogRef
+      .keydownEvents()
+      .pipe(filter((e) => e.key === 'Enter' || e.key === 'Escape'))
+      .subscribe(() => {
+        this.formDialogService.handleDialogData(this.dialogRef, this.taskForm);
+      });
+
+    this.dialogRef.backdropClick().subscribe(() => {
+      this.formDialogService.handleDialogData(this.dialogRef, this.taskForm);
+    });
+  }
+
+  updateErrorMessage() {}
+
+  deleteTask() {
+    this.taskService.delete(this.task.id);
     this.dialogRef.close();
   }
 }

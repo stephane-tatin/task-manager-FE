@@ -3,7 +3,7 @@ import { ColumnWithTasks } from '../../models/columnsWithTasks';
 import { ColumnService } from '../../services/column.service';
 import { ListComponent } from '../list/list.component';
 import { CommonModule } from '@angular/common';
-import { MatButton } from '@angular/material/button';
+import { MatButton, MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import {
   CdkDragDrop,
@@ -15,6 +15,11 @@ import { Task } from '../../models/task.model';
 import { TaskService } from '../../services/task.service';
 import { MatDialog } from '@angular/material/dialog';
 import { FormDialogService } from '../../services/form-dialog.service';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatMenuModule } from '@angular/material/menu';
+import { AppUser, AuthUser } from '../../models/app-user.model';
+import { UserService } from '../../services/user.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-table',
@@ -24,6 +29,10 @@ import { FormDialogService } from '../../services/form-dialog.service';
     MatButton,
     MatInputModule,
     CdkDropList,
+    MatButtonModule,
+    MatInputModule,
+    MatToolbarModule,
+    MatMenuModule,
   ],
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',

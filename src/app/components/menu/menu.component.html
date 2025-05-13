@@ -1,0 +1,11 @@
+<mat-toolbar>
+  <button mat-button [matMenuTriggerFor]="menu">Change user</button>
+  <span>Current: {{ getAuthUser() }}</span>
+  <mat-menu #menu="matMenu">
+    @for (user of getUsers(); track user.id) {
+    <button mat-menu-item (click)="changeUser(user)">
+      {{ user.userName }}
+    </button>
+    }
+  </mat-menu>
+</mat-toolbar>
