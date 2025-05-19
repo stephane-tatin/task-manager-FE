@@ -8,6 +8,7 @@ import { AuthService } from './services/auth.service';
 import { UserService } from './services/user.service';
 import { ColumnService } from './services/column.service';
 import { AuthUser } from './models/app-user.model';
+import { of, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -35,13 +36,26 @@ export class AppComponent implements OnInit {
   };
 
   ngOnInit(): void {
-    this.authService.auth(this.defaultUser).subscribe((res) => {
-      //put in a token service
-      localStorage.setItem('authToken', res.token);
-      this.columnService.loadData();
-      this.userService.loadInitialData();
-      this.authService.authenticatedUser.set(this.defaultUser);
-    });
+    this.authService
+      .getAuthUser()
+      .pipe(
+        switchMap((user) =>
+          !!user ? of(user) : this.authService.auth(this.defaultUser)
+        )
+      )
+      .subscribe((res) => {
+        console.log('res', res);
+        this.columnService.loadData();
+        this.userService.loadInitialData();
+        this.authService.authenticatedUser.set(res);
+      });
+
+    // this.authService.auth(this.defaultUser).subscribe((res) => {
+    //   this.columnService.loadData();
+    //   this.userService.loadInitialData();
+    //   this.authService.authenticatedUser.set(this.defaultUser);
+    // });
   }
+
   title = 'material';
 }

@@ -3,6 +3,7 @@ import { ColumnWithTasks } from '../models/columnsWithTasks';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Column } from '../models/column';
 import { baseUrl } from '../constants';
+import { optionsBase } from '../../config/https';
 
 @Injectable({
   providedIn: 'root',
@@ -18,6 +19,7 @@ export class ColumnService {
     this.http
       .get<ColumnWithTasks[]>(`${baseUrl}/columns`, {
         headers: this.headers,
+        ...optionsBase,
       })
       .subscribe({
         next: (columns) => this.columnsWithTasks.set(columns),
@@ -26,39 +28,45 @@ export class ColumnService {
   }
 
   updateColumn(column: Column) {
-    this.http.post<ColumnWithTasks>(`${baseUrl}/columns`, column).subscribe({
-      next: (savedColumn) => {
-        this.columnsWithTasks.update((columns) => {
-          return columns.map((column) => {
-            if (column.id === savedColumn.id) {
-              return savedColumn;
-            }
-            return column;
+    this.http
+      .post<ColumnWithTasks>(`${baseUrl}/columns`, column, optionsBase)
+      .subscribe({
+        next: (savedColumn) => {
+          this.columnsWithTasks.update((columns) => {
+            return columns.map((column) => {
+              if (column.id === savedColumn.id) {
+                return savedColumn;
+              }
+              return column;
+            });
           });
-        });
-        this.loadData();
-      },
-      error: (err) => console.error('Failed to update column', err),
-    });
+          this.loadData();
+        },
+        error: (err) => console.error('Failed to update column', err),
+      });
   }
 
   saveColumn(column: Column) {
-    this.http.post<ColumnWithTasks>(`${baseUrl}/columns`, column).subscribe({
-      next: (savedColumn) => {
-        this.columnsWithTasks.update((columns) => [...columns, savedColumn]);
-        this.loadData();
-      },
-      error: (err) => console.error('Failed to save column', err),
-    });
+    this.http
+      .post<ColumnWithTasks>(`${baseUrl}/columns`, column, optionsBase)
+      .subscribe({
+        next: (savedColumn) => {
+          this.columnsWithTasks.update((columns) => [...columns, savedColumn]);
+          this.loadData();
+        },
+        error: (err) => console.error('Failed to save column', err),
+      });
   }
 
   delete(id: string) {
-    this.http.delete<string>(`${baseUrl}/columns/${id}`).subscribe({
-      next: (savedTask) => {
-        this.loadData();
-      },
-      error: (err) => console.error('Failed to save task', err),
-    });
+    this.http
+      .delete<string>(`${baseUrl}/columns/${id}`, optionsBase)
+      .subscribe({
+        next: (savedTask) => {
+          this.loadData();
+        },
+        error: (err) => console.error('Failed to save task', err),
+      });
   }
 
   getColumnsListWithTasks() {
